@@ -15,7 +15,7 @@ nav {
   padding: 15px 40px;
   position: sticky;
   top: 0;
-  background: rgba(0,0,0,0.9);
+  background: rgba(0,0,0,1);
   border-bottom: 2px solid #f5c400;
   z-index: 10;
 }
@@ -41,7 +41,7 @@ nav ul li a {
 /* ✅ HERO */
 .hero {
   position: relative;
-  height: 100vh;
+  height: 60vh;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -69,9 +69,12 @@ nav ul li a {
 
 .hero p,
 .hero .btn {
-  position: relative;
+  position: absolute;
+  bottom: 150px;   /* distance from bottom */
+  left: 50%;
+  transform: translateX(-50%); /* center horizontally */
   z-index: 3;
-  color: white;
+  color: black;
 }
 
 .hero h1 {
