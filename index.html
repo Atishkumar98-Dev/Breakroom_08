@@ -1,23 +1,747 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>BREAKROOM | Play. Eat. Repeat.</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BREAKROOM | Play. Eat. Repeat.</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap');
 
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="styles/style.css">
+:root {
+  --gold: #f5c400;
+  --gold-dark: #c99a00;
+  --gold-light: #fff3a0;
+  --black: #0a0a0a;
+  --dark: #111;
+  --card-bg: #161616;
+  --text: #fff;
+  --muted: #aaa;
+  --radius: 18px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--black);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+/* ===== NAV ===== */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 48px;
+  height: 68px;
+  position: sticky;
+  top: 0;
+  background: rgba(10,10,10,0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(245,196,0,0.2);
+  z-index: 100;
+  animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.logo-text {
+  font-family: 'Anton', sans-serif;
+  font-size: 28px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.logo-dot { color: #fff; }
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 8px;
+}
+
+nav ul li a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: 50px;
+  transition: all 0.25s ease;
+}
+
+nav ul li a:hover {
+  color: var(--gold);
+  background: rgba(245,196,0,0.1);
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  height: 92vh;
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url("img/pool3.webp");
+  background-size: cover;
+  background-position: center;
+
+  /* 👇 blur effect */
+  filter: blur(4px);
+
+  /* 👇 prevents edges from showing after blur */
+  transform: scale(1.05);
+}
+
+
+.hero-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(245,196,0,0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(245,196,0,0.04) 0%, transparent 40%);
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(245,196,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,196,0,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridDrift 20s linear infinite;
+}
+
+@keyframes gridDrift {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(60px); }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  animation: heroReveal 0.9s cubic-bezier(.2,.8,.3,1) both;
+}
+
+@keyframes heroReveal {
+  from { opacity: 0; transform: translateY(32px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(245,196,0,0.1);
+  border: 1px solid rgba(245,196,0,0.3);
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 50px;
+  margin-bottom: 28px;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245,196,0,0.2); }
+  50% { box-shadow: 0 0 0 8px rgba(245,196,0,0); }
+}
+
+.hero h1 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(56px, 10vw, 96px);
+  letter-spacing: 8px;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.hero h1 span { color: var(--gold); }
+
+.hero-sub {
+  font-size: clamp(12px, 2vw, 15px);
+  letter-spacing: 5px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 48px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: #000;
+  padding: 16px 40px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 32px rgba(245,196,0,0.25);
+}
+
+.btn-primary:hover {
+  background: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(245,196,0,0.4);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  padding: 15px 36px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-outline:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.hero-stats {
+  position: absolute;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 48px;
+  z-index: 2;
+  animation: heroReveal 1.2s cubic-bezier(.2,.8,.3,1) both;
+}
+
+.stat-item { text-align: center; }
+
+.stat-num {
+  font-family: 'Anton', sans-serif;
+  font-size: 28px;
+  color: var(--gold);
+  letter-spacing: 2px;
+}
+
+.stat-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 24px;
+  right: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
+  opacity: 0.5;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollAnim 1.5s ease-in-out infinite;
+}
+
+@keyframes scrollAnim {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+/* ===== SECTIONS ===== */
+.section { padding: 100px 48px; position: relative; }
+
+.section-header {
+  text-align: center;
+  margin-bottom: 64px;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: all 0.6s ease;
+}
+
+.section-header.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section-tag {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.section-header h2 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(32px, 5vw, 52px);
+  letter-spacing: 4px;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.section-header p {
+  color: var(--muted);
+  font-size: 15px;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.divider {
+  width: 48px;
+  height: 3px;
+  background: var(--gold);
+  margin: 16px auto 0;
+  border-radius: 2px;
+}
+
+/* ===== CARD GRID ===== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.card-grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+}
+
+/* ===== IMAGE CARD ===== */
+.img-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  border: 1px solid rgba(255,255,255,0.06);
+  min-height: 340px;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.img-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.img-card:hover {
+  border-color: rgba(245,196,0,0.35);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(245,196,0,0.1);
+  transform: translateY(-6px) !important;
+}
+
+.img-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  transition: transform 0.7s ease;
+  filter: brightness(0.75) saturate(0.9);
+}
+
+.img-card:hover img {
+  transform: scale(1.08);
+  filter: brightness(0.65) saturate(0.85);
+}
+
+.img-card .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+  z-index: 1;
+}
+
+.img-card .content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 28px;
+  z-index: 2;
+}
+
+/* When no real image is present, use placeholder */
+.img-card .img-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.food-1 { background: linear-gradient(135deg, #2d1a00, #4a2d00, #1a0f00); }
+.food-2 { background: linear-gradient(135deg, #1a0d0d, #3d1a0a, #220d0d); }
+.food-3 { background: linear-gradient(135deg, #0d1a2d, #0a2440, #071520); }
+.gaming-1 { background: linear-gradient(135deg, #0d0a2d, #1a1050, #070520); }
+.gaming-2 { background: linear-gradient(135deg, #0a1a2d, #102040, #060f1a); }
+.pool-1 { background: linear-gradient(135deg, #0a1f0a, #0d2d12, #060f06); }
+
+.img-placeholder i {
+  font-size: 72px;
+  opacity: 0.15;
+  color: var(--gold);
+}
+
+.card-tag {
+  display: inline-block;
+  background: rgba(245,196,0,0.15);
+  border: 1px solid rgba(245,196,0,0.3);
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 50px;
+  margin-bottom: 10px;
+}
+
+.img-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.price-list { list-style: none; }
+
+.price-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: rgba(255,255,255,0.75);
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.price-list li:last-child { border-bottom: none; }
+
+.price-list .price {
+  color: var(--gold);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ===== MARQUEE STRIP ===== */
+.marquee-strip {
+  background: var(--gold);
+  overflow: hidden;
+  padding: 14px 0;
+  border-top: 1px solid rgba(245,196,0,0.3);
+  border-bottom: 1px solid rgba(245,196,0,0.3);
+}
+
+.marquee-track {
+  display: flex;
+  animation: marqueeScroll 18s linear infinite;
+  width: max-content;
+}
+
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 36px;
+  font-family: 'Anton', sans-serif;
+  font-size: 15px;
+  letter-spacing: 3px;
+  color: #000;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.marquee-dot {
+  width: 6px;
+  height: 6px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ===== MEMBERSHIP ===== */
+.membership-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  border: 1px solid rgba(245,196,0,0.3);
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(245,196,0,0.08), inset 0 1px 0 rgba(245,196,0,0.15);
+  opacity: 0;
+  transform: translateY(32px);
+  transition: all 0.6s ease;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.membership-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.membership-card::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(245,196,0,0.12), transparent 70%);
+  pointer-events: none;
+}
+
+.crown-icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(245,196,0,0.12);
+  border: 1px solid rgba(245,196,0,0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  font-size: 24px;
+  color: var(--gold);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.membership-card h3 {
+  font-family: 'Anton', sans-serif;
+  font-size: 32px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.membership-price {
+  font-size: 56px;
+  font-weight: 700;
+  color: #fff;
+  margin: 20px 0;
+  letter-spacing: -1px;
+}
+
+.membership-price sup {
+  font-size: 24px;
+  color: var(--gold);
+  vertical-align: super;
+}
+
+.membership-price span {
+  font-size: 18px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.perks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+  max-width: 360px;
+  margin: 28px auto 36px;
+}
+
+.perk-item {
+  background: rgba(245,196,0,0.06);
+  border: 1px solid rgba(245,196,0,0.12);
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.perk-item i {
+  color: var(--gold);
+  font-size: 14px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.footer-brand {
+  font-family: 'Anton', sans-serif;
+  font-size: 22px;
+  letter-spacing: 4px;
+  color: var(--gold);
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+
+.footer-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--gold); }
+
+.footer-copy {
+  color: rgba(255,255,255,0.2);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+
+/* FOOD SLIDER */
+.food-slider {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 10px;
+}
+
+.food-slider .img-card {
+  min-width: 280px;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+.food-slider::-webkit-scrollbar {
+  height: 6px;
+}
+
+.food-slider::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 10px;
+}
+
+/* BUTTONS */
+.slider-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.slider-controls button {
+  background: rgba(245,196,0,0.1);
+  border: 1px solid rgba(245,196,0,0.3);
+  color: var(--gold);
+  padding: 10px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.slider-controls button:hover {
+  background: var(--gold);
+  color: #000;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  nav ul { gap: 0; }
+  nav ul li a { padding: 8px 10px; font-size: 11px; }
+  .section { padding: 72px 24px; }
+  .hero-stats { gap: 28px; }
+  footer { padding: 36px 24px; flex-direction: column; text-align: center; }
+  .footer-links { justify-content: center; }
+  .membership-card { padding: 32px 24px; }
+}
+
+@media (max-width: 480px) {
+  nav ul { display: none; }
+  .hero-stats { flex-wrap: wrap; justify-content: center; gap: 20px 32px; }
+  .hero-scroll { display: none; }
+  .perks-grid { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <div class="nav-left">
-    <img src="img/logo.png" class="logo">
-  </div>
+  <a href="#" class="logo-text">BREAK<span class="logo-dot">R</span>OOM</a>
   <ul>
     <li><a href="#menu">Food</a></li>
     <li><a href="#gaming">Gaming</a></li>
@@ -28,124 +752,345 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-overlay"></div>
-  <img src="img/banner-breakroom.png" class="hero-img">
-  <!-- <p>PLAY • EAT • REPEAT</p> -->
-  <br>
-  <br>
-  <br>
-  <a href="" class="btn">Start Playing</a>
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag">
+      <i class="fa-solid fa-gamepad" style="font-size:12px"></i>
+      Now Open
+    </div>
+    <h1>BREAK<span>ROOM</span></h1>
+    <p class="hero-sub">Play &nbsp;•&nbsp; Eat &nbsp;•&nbsp; Repeat</p>
+    <div class="hero-actions">
+      <a href="#gaming" class="btn-primary">
+        <i class="fa-solid fa-gamepad" style="font-size:14px"></i>
+        Start Playing
+      </a>
+      <a href="#menu" class="btn-outline">
+        <i class="fa-solid fa-utensils" style="font-size:13px"></i>
+        View Menu
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">PS5</div>
+      <div class="stat-label">Console Gaming</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">65"</div>
+      <div class="stat-label">Giant Screen</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">₹99</div>
+      <div class="stat-label">Starts From</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Good Times</div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+  </div>
 </section>
 
-<!-- FOOD -->
-<section id="menu">
-  <h2><i class="fa-solid fa-burger"></i> Food & Drinks</h2>
+<!-- MARQUEE STRIP -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <div class="marquee-item">PS5 Gaming <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Pool Table <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Momos & Bites <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Cold Coffee <span class="marquee-dot"></span></div>
+    <div class="marquee-item">65" Screens <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Memberships <span class="marquee-dot"></span></div>
+    <div class="marquee-item">PS5 Gaming <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Pool Table <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Momos & Bites <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Cold Coffee <span class="marquee-dot"></span></div>
+    <div class="marquee-item">65" Screens <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Memberships <span class="marquee-dot"></span></div>
+  </div>
+</div>
 
-  <div class="card-grid">
+<!-- FOOD SECTION -->
+<section id="menu" class="section">
+  <div class="section-header">
+    <div class="section-tag">Food & Drinks</div>
+    <h2>FUEL UP</h2>
+    <p>Power your session with seriously good food. Quick bites, loaded momos, and ice-cold drinks.</p>
+    <div class="divider"></div>
+  </div>
 
+  <!-- SLIDER BUTTONS -->
+  <div class="slider-controls">
+    <button onclick="scrollFood(-1)">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button onclick="scrollFood(1)">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <!-- SLIDER -->
+  <div class="food-slider">
+
+    <!-- CARD 1 -->
     <div class="img-card">
-      <img src="img/food4.jpeg">
+      <div class="img-placeholder food-1">
+        <i class="fa-solid fa-burger"></i>
+      </div>
+      <div class="overlay"></div>
       <div class="content">
-        <h3>Quick Bites</h3>
-        <p>Maggi – ₹99</p>
-        <p>Cheese Maggi – ₹129</p>
-        <p>Fries – ₹119</p>
+        <div class="card-tag">Quick Bites</div>
+        <h3>Snacks & Fries</h3>
+        <ul class="price-list">
+          <li><span>Maggi</span><span class="price">₹99</span></li>
+          <li><span>Cheese Maggi</span><span class="price">₹129</span></li>
+          <li><span>Loaded Fries</span><span class="price">₹119</span></li>
+        </ul>
       </div>
     </div>
 
+    <!-- CARD 2 -->
     <div class="img-card">
-      <img src="img/food2.jpeg">
+      <div class="img-placeholder food-2">
+        <i class="fa-solid fa-bowl-food"></i>
+      </div>
+      <div class="overlay"></div>
       <div class="content">
-        <h3>Momos Half/Full</h3>
-        <p>Veg Momos – ₹ 79 / ₹ 139</p>
-        <p>Paneer Momos – ₹179</p>
-        <p>Cheese Chilly Momos – ₹199</p>
+        <div class="card-tag">Momos</div>
+        <h3>Half & Full Plates</h3>
+        <ul class="price-list">
+          <li><span>Veg Momos</span><span class="price">₹79 / ₹139</span></li>
+          <li><span>Paneer Momos</span><span class="price">₹179</span></li>
+          <li><span>Cheese Chilly</span><span class="price">₹199</span></li>
+        </ul>
       </div>
     </div>
 
+    <!-- CARD 3 -->
     <div class="img-card">
-      <img src="img/food1.jpeg">
+      <div class="img-placeholder food-3">
+        <i class="fa-solid fa-glass-water-droplet"></i>
+      </div>
+      <div class="overlay"></div>
       <div class="content">
-        <h3>Dumplings</h3>
-        <p>Cold Coffee – ₹129</p>
-        <p>Milkshake – ₹149</p>
-        <p>Mojito – ₹159</p>
+        <div class="card-tag">Drinks</div>
+        <h3>Chill Beverages</h3>
+        <ul class="price-list">
+          <li><span>Cold Coffee</span><span class="price">₹129</span></li>
+          <li><span>Milkshake</span><span class="price">₹149</span></li>
+          <li><span>Mojito</span><span class="price">₹159</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- EXTRA CARD 4 -->
+    <div class="img-card">
+      <div class="img-placeholder food-1">
+        <i class="fa-solid fa-pizza-slice"></i>
+      </div>
+      <div class="overlay"></div>
+      <div class="content">
+        <div class="card-tag">Pizza</div>
+        <h3>Cheesy Pizza</h3>
+        <ul class="price-list">
+          <li><span>Margherita</span><span class="price">₹199</span></li>
+          <li><span>Farmhouse</span><span class="price">₹249</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- EXTRA CARD 5 -->
+    <div class="img-card">
+      <div class="img-placeholder food-2">
+        <i class="fa-solid fa-ice-cream"></i>
+      </div>
+      <div class="overlay"></div>
+      <div class="content">
+        <div class="card-tag">Dessert</div>
+        <h3>Ice Creams</h3>
+        <ul class="price-list">
+          <li><span>Vanilla</span><span class="price">₹79</span></li>
+          <li><span>Chocolate</span><span class="price">₹99</span></li>
+        </ul>
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- GAMING -->
-<section id="gaming">
-  <h2><i class="fa-brands fa-playstation"></i> PS5 Gaming</h2>
+<!-- GAMING SECTION -->
+<section id="gaming" class="section" style="background: rgba(245,196,0,0.02);">
+  <div class="section-header">
+    <div class="section-tag">PS5 Gaming</div>
+    <h2>PLAY ZONE</h2>
+    <p>Next-gen gaming on massive screens. Book your slot and dominate.</p>
+    <div class="divider"></div>
+  </div>
 
-  <div class="card-grid">
+  <div class="card-grid card-grid-2">
 
-    <div class="img-card">
-      <img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db">
+    <div class="img-card" style="min-height: 400px;">
+      <!-- <img src="img/ps3.webp"> -->
+      <div class="img-placeholder gaming-1">
+        <i class="fa-brands fa-playstation" style="font-size:90px"></i>
+      </div>
+      <div class="overlay"></div>
       <div class="content">
-        <h3>PS5 Console 55" Inch Tv</h3>
-        <p>Weekdays – ₹120/hr</p>
-        <p>Weekends – ₹200/hr</p>
+        <div class="card-tag">Standard Setup</div>
+        <h3>PS5 + 55" Display</h3>
+        <ul class="price-list">
+          <li><span>1 Controller</span><span class="price">₹100/hr </span></li>
+          <li><span>2 Controller</span><span class="price">₹200/hr </span></li>
+          <li><span>3 Controller</span><span class="price">₹300/hr </span></li>
+          <li><span>4 Controller</span><span class="price">₹400/hr </span></li>
+        </ul>
       </div>
     </div>
 
-    <div class="img-card">
-      <img src="img/ps52.jpg">
+    <div class="img-card" style="min-height: 400px;">
+      <!-- <img src="img/ps2.webp"> -->
+      <div class="img-placeholder gaming-2">
+        <i class="fa-solid fa-tv" style="font-size:90px"></i>
+      </div>
+      <div class="overlay"></div>
       <div class="content">
-        <h3>PS5 Console 65" Inch Tv</h3>
-        <p>2 Hrs – ₹220</p>
-        <p>3 Hrs – ₹500</p>
+        <div class="card-tag">Premium Setup</div>
+        <h3>PS5 + 65" Display</h3>
+        <ul class="price-list">
+          <li><span>1 Controller</span><span class="price">₹120/hr </span></li>
+          <li><span>2 Controller</span><span class="price">₹240/hr </span></li>
+          <li><span>3 Controller</span><span class="price">₹360/hr </span></li>
+          <li><span>4 Controller</span><span class="price">₹480/hr </span></li>
+        </ul>
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- POOL -->
-<section id="pool">
-  <h2><i class="fa-solid fa-circle"></i> Pool Table</h2>
-
-  <div class="card-grid">
-
-    <div class="img-card">
-      <img src="img/klara-kulikova-DUcVepObkXk-unsplash.jpg">
-      <div class="content">
-        <h3>American Pool</h3>
-        <p>Weekdays – ₹150/hr</p>
-        <p>Peak – ₹200/hr</p>
-        <p>Weekends – ₹220/hr</p>
-      </div>
-    </div>
-
+<!-- POOL SECTION -->
+<section id="pool" class="section">
+  <div class="section-header">
+    <div class="section-tag">Billiards</div>
+    <h2>POOL TABLE</h2>
+    <p>Challenge your friends to a game of American Pool on our premium table.</p>
+    <div class="divider"></div>
   </div>
-</section>
 
-<!-- MEMBERSHIP -->
-<section id="membership">
-  <h2><i class="fa-solid fa-crown"></i> Membership</h2>
-
-  <div class="card-grid">
-    <div class="img-card gold">
-      <img src="img/pool3.jpeg">
-      <div class="content dark">
-        <h3>Monthly Gamer</h3>
-        <p>₹999</p>
-        <ul>
-          <li>Discounted Gaming</li>
-          <li>Free Fries</li>
-          <li>Priority Booking</li>
+  <div style="max-width: 100%; margin: 0 auto;">
+    <div class="img-card" style="min-height: 380px;">
+      <!-- <img src="img/klara-kulikova-DUcVepObkXk-unsplash.jpg"> -->
+      <div class="img-placeholder pool-1">
+        <i class="fa-solid fa-circle-dot" style="font-size:90px"></i>
+      </div>
+      <div class="overlay"></div>
+      <div class="content">
+        <div class="card-tag">Available Daily | 2 Pool Table </div>
+        <h3>Pool Table </h3>
+        <ul class="price-list">
+          <li><span>Regular Pricing </span><span class="price">₹250/hr | 150/ half hour</span></li>
+          <li><span>Weekdays Before 5:00 PM / Weekends Before 2:00 PM</span><span class="price">₹200/hr | 120/ half hour</span></li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
+<!-- MEMBERSHIP SECTION -->
+<section id="membership" class="section" style="background: rgba(245,196,0,0.02);">
+  <div class="section-header">
+    <div class="section-tag">Members Only</div>
+    <h2>GO GOLD</h2>
+    <p>Unlock exclusive perks, discounts, and priority access every month.</p>
+    <div class="divider"></div>
+  </div>
+
+  <div class="membership-card">
+    <div class="crown-icon">
+      <i class="fa-solid fa-crown"></i>
+    </div>
+    <h3>MONTHLY GAMER</h3>
+    <p style="color: var(--muted); font-size: 14px; margin-top: 4px;">Your ultimate gaming pass</p>
+    <div class="membership-price">
+      <sup>₹</sup>999<span>/mo</span>
+    </div>
+    <div class="perks-grid">
+      <div class="perk-item"><i class="fa-solid fa-gamepad"></i> Discounted Gaming</div>
+      <div class="perk-item"><i class="fa-solid fa-utensils"></i> Free Fries</div>
+      <div class="perk-item"><i class="fa-solid fa-calendar-check"></i> Priority Booking</div>
+      <div class="perk-item"><i class="fa-solid fa-star"></i> Member Perks</div>
+    </div>
+    <a href="#" class="btn-primary" style="width: 100%; justify-content: center;">
+      <i class="fa-solid fa-crown" style="font-size:14px"></i>
+      Get Membership
+    </a>
+  </div>
+</section>
+<div id="foodModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <img id="modalImage">
+    <h2 id="modalTitle"></h2>
+    <ul id="modalList"></ul>
+  </div>
+</div>
+<!-- FOOTER -->
 <footer>
-  <p>© 2025 BREAKROOM • Play. Eat. Repeat.</p>
+  <div class="footer-brand">BREAKROOM</div>
+  <ul class="footer-links">
+    <li><a href="#menu">Food</a></li>
+    <li><a href="#gaming">Gaming</a></li>
+    <li><a href="#pool">Pool</a></li>
+    <li><a href="#membership">Membership</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 BREAKROOM • Play. Eat. Repeat.</p>
 </footer>
 
-<script src="js/script.js"></script>
+<script>
+  // Scroll-triggered reveal animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        const cards = entry.target.querySelectorAll('.img-card, .membership-card');
+        cards.forEach((card, i) => {
+          setTimeout(() => card.classList.add('visible'), i * 120);
+        });
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.section-header').forEach(el => observer.observe(el));
+  document.querySelectorAll('.section').forEach(el => observer.observe(el));
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+<script>
+  function scrollFood(direction) {
+  const slider = document.querySelector('.food-slider');
+  const scrollAmount = 300;
+
+  slider.scrollBy({
+    left: direction * scrollAmount,
+    behavior: 'smooth'
+  });
+}
+</script>
 </body>
 </html>
+
