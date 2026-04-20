@@ -41,14 +41,14 @@ nav ul li a {
 /* ✅ HERO */
 .hero {
   position: relative;
-  height: 60vh;
+  height: 80vh;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
 }
-.hero-overlay {
+/* .hero-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
@@ -56,21 +56,20 @@ nav ul li a {
     rgba(0, 0, 0, 0.452)
   );
   z-index: 2;
-}
+} */
 
 
 .hero-img {
-  position: absolute;
+  position: relative;
   width: 100%;
   height: 100%;
   object-fit: cover;
   z-index: 1;
 }
 
-.hero p,
-.hero .btn {
+.hero p, .hero .btn {
   position: absolute;
-  bottom: 150px;   /* distance from bottom */
+  bottom: 60px;   /* distance from bottom */
   left: 50%;
   transform: translateX(-50%); /* center horizontally */
   z-index: 3;
@@ -106,7 +105,7 @@ nav ul li a {
 
 /* ✅ SECTION */
 section {
-  padding: 80px 8%;
+  /* padding: 80px 8%; */
 }
 
 h2 {
@@ -184,7 +183,7 @@ footer {
   }
 
   section {
-    padding: 70px 5%;
+    padding: 0px 5%;
   }
 
   .hero h1 {
